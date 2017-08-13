@@ -6,7 +6,8 @@ may use any language you like*/
 #include <string>
 #include <iostream>
 
-// b has substring a
+// b has substring a, using bruteforce for O(|a|*|b|) complexity
+// since O(|a|+|b|) complexity is nontrivial
 bool hasSubstring(const std::string & a, const std::string & b) {
 
 	// sanity checks
@@ -18,18 +19,16 @@ bool hasSubstring(const std::string & a, const std::string & b) {
 		return false;
 	}
 
-	int x = 0;
-	int y = 0;
-	for (x; x < b.size(); ++x) {
-		if (b[x] == a[y]) {
-			// increment y forward
-			++y;
-			if (y >= a.size()) {
-				return true;
+	for (int x=0; x < b.size(); ++x) {
+		bool isAMatch = true;
+		for (int j = 0; j < a.size(); ++j) {
+			if (b[x + j] != a[j]) {
+				isAMatch = false;
+				break;
 			}
 		}
-		else {
-			y == 0;
+		if (isAMatch) {
+			return true;
 		}
 	}
 	return false;
@@ -45,6 +44,7 @@ int main() {
 	cout << hasSubstring("how about now?", "sure, 'how about now?' is fine") << endl;
 	cout << hasSubstring("xyz","xyabcdxygegfxyas;dlkfjxyz") << endl;
 	cout << hasSubstring("fair enough", "denied") << endl;
+	cout << hasSubstring("ananab", "anananab") << endl;
 
 	std::cin.get();
 
